@@ -1,6 +1,9 @@
 import chatModel from '../models/chat.model.js'
 import { getAiResponse } from '../services/ai.service.js'
 
+
+
+
 export async function createChatController(req, res){
     try{
         const { userId, message, imageUrl } = req.body
@@ -40,6 +43,27 @@ export async function createChatController(req, res){
     }catch(error){
         const status = error.status || 500
         return res.status(status).json({ message: 'Failed to create chat', error: error.message })
+    }
+}
+
+
+
+export async function getChatHistoryController(req, res){
+    try{
+        const { userId } = req.query
+
+        if(!userId){
+            return res.status(400).json({ message: 'userId is required' })
+        }
+
+        const chatHistory = await chatModel.find({ userId }).sort({ timestamp: -1 })
+        return res.status(200).json({
+            message: 'Chat history fetched successfully',
+            data: chatHistory
+        })
+        }catch(error){
+        const status = error.status || 500
+        return res.status(status).json({ message: 'Failed to get chat history', error: error.message })
     }
 }
 

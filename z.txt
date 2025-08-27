@@ -7,6 +7,7 @@ Backend
 
     /chat
     /chat/create 
+    /chat/chat-history
    
 
 
@@ -16,7 +17,6 @@ Backend
 
 
     ❌
-    /chat/chat-history
     dark light theme 
     responsive
     audio
