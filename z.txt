@@ -1,5 +1,25 @@
 Backend
+    /auth
     /auth/register
     /auth/login
     /auth/logout
-    
+
+
+    /chat
+    /chat/create 
+   
+
+
+
+
+
+
+
+    ❌
+    /chat/chat-history
+    dark light theme 
+    responsive
+    audio
+    pdf
+    google login 
+    deploy 

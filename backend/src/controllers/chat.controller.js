@@ -3,13 +3,17 @@ import { getAiResponse } from '../services/ai.service.js'
 
 export async function createChatController(req, res){
     try{
-        const { userId, message } = req.body
+        const { userId, message, imageUrl } = req.body
+        const file = req.file
 
-        if(!userId || !message){
-            return res.status(400).json({ message: 'userId and message are required' })
+        if(!userId){
+            return res.status(400).json({ message: 'userId is required' })
+        }
+        if(!message && !file && !imageUrl){
+            return res.status(400).json({ message: 'Provide message text, an image file, or imageUrl' })
         }
 
-        const aiResponse = await getAiResponse(message)
+        const aiResponse = await getAiResponse(message, undefined, file, imageUrl)
 
         if(!aiResponse){
             return res.status(502).json({ message: 'No response from AI provider' })
@@ -18,7 +22,7 @@ export async function createChatController(req, res){
 
         const chatDoc = await chatModel.create({
             userId,
-            userMessage: message,
+            userMessage: message || (file ? `[image:${file.mimetype}]` : (imageUrl ? `[imageUrl:${imageUrl}]` : '')),
             aiResponse,
             timestamp: new Date()
         })

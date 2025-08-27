@@ -19,9 +19,10 @@ const  config={
     // OPENAI_MODEL:process.env.OPENAI_MODEL,
 
     GEMINI_API_KEY:process.env.GEMINI_API_KEY,
+    
     GEMINI_SYSTEM_INSTRUCTION:process.env.GEMINI_SYSTEM_INSTRUCTION,
     
-    
+
 
 
 }
