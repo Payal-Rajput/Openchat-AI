@@ -1,0 +1,5 @@
+Backend
+    /auth/register
+    /auth/login
+    /auth/logout
+    
