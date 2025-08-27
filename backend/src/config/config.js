@@ -13,8 +13,14 @@ const  config={
 
     JWT_SECRET:process.env.JWT_SECRET,
 
+
+    // OPENAI_API_KEY:process.env.OPENAI_API_KEY,
+
+    // OPENAI_MODEL:process.env.OPENAI_MODEL,
+
+    GEMINI_API_KEY:process.env.GEMINI_API_KEY,
+    GEMINI_SYSTEM_INSTRUCTION:process.env.GEMINI_SYSTEM_INSTRUCTION,
     
-    // GEMINI_API_KEY:process.env.GEMINI_API_KEY,
     
 
 
