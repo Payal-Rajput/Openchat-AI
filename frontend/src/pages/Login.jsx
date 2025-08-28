@@ -1,9 +1,18 @@
 import React, { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import toast from 'react-hot-toast'
 
 const Login = () => {
-  const [form, setForm] = useState({ username: '', email: '', password: '' })
+  const [form, setForm] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  // Get the page user was trying to access
+  const from = location.state?.from?.pathname || '/dashboard'
 
   function updateField(e) {
     const { name, value } = e.target
@@ -12,21 +21,14 @@ const Login = () => {
 
   async function onSubmit(e) {
     e.preventDefault()
-    setError('')
     setLoading(true)
+    
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(form),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data?.message || 'Login failed')
-      // TODO: navigate to protected page
-      alert('Logged in successfully')
+      await login(form)
+      toast.success('Logged in successfully!')
+      navigate(from, { replace: true })
     } catch (err) {
-      setError(err.message)
+      toast.error(err.response?.data?.message || 'Login failed')
     } finally {
       setLoading(false)
     }
@@ -45,29 +47,9 @@ const Login = () => {
       {/* Form Card */}
       <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-2xl">
         <h1 className="text-3xl font-bold mb-2 text-white">Login</h1>
-        <p className="text-sm text-white/70 mb-6">Use your email or username along with your password</p>
-        
-        {error && (
-          <div className="text-red-400 text-sm mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-            {error}
-          </div>
-        )}
+        <p className="text-sm text-white/70 mb-6">Use your email and password to access your account</p>
         
         <form onSubmit={onSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="username" className="block text-sm font-medium text-white/90">
-              Username (or Email)
-            </label>
-            <input
-              id="username"
-              name="username"
-              placeholder="johndoe"
-              value={form.username}
-              onChange={updateField}
-              className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-500/50 transition-colors"
-            />
-          </div>
-          
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-white/90">
               Email
@@ -80,6 +62,7 @@ const Login = () => {
               value={form.email}
               onChange={updateField}
               className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-500/50 transition-colors"
+              required
             />
           </div>
           
@@ -95,6 +78,7 @@ const Login = () => {
               value={form.password}
               onChange={updateField}
               className="w-full px-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-500/50 transition-colors"
+              required
             />
           </div>
           

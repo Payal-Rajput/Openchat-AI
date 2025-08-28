@@ -21,6 +21,10 @@ const  config={
     GEMINI_API_KEY:process.env.GEMINI_API_KEY,
     
     GEMINI_SYSTEM_INSTRUCTION:process.env.GEMINI_SYSTEM_INSTRUCTION,
+
+    EMAIL_USER:process.env.EMAIL_USER,
+    
+    EMAIL_PASS:process.env.EMAIL_PASS,
     
 
 

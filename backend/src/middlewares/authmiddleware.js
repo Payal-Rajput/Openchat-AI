@@ -8,7 +8,7 @@ export async function authMiddleware(req,res,next){
 
     if(!token){
         return res.status(401).json({
-            message:"unauthorised  access, please login first."
+            message:"unauthorised access, please login first."
         })
     }
 

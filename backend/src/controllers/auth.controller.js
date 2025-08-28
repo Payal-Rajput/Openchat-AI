@@ -81,8 +81,16 @@ export async function loginController(req, res) {
         })
     }
 
-    const token=jwt.sign({_id:user._id}, config.JWT_SECRET)
-    res.cookie('token',token);
+    const token=jwt.sign({_id:user._id}, config.JWT_SECRET, { expiresIn: '7d' })
+    
+    // Set HTTP-only cookie with secure options
+    res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure in production
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        path: '/'
+    });
 
     return res.status(200).json({
         message:"login successfully",
@@ -99,7 +107,14 @@ export async function loginController(req, res) {
 
 
 export async function logoutController(req, res) {
-    res.clearCookie('token');
+    // Clear the HTTP-only cookie
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        path: '/'
+    });
+    
     return res.status(200).json({
         message: "logout successfully"
     });
@@ -157,4 +172,26 @@ export async function verifyEmailOtpController(req, res){
     })
 
     return res.status(200).json({ message: 'Email verified successfully' })
+}
+
+export async function getMeController(req, res) {
+    try {
+        // User data is already attached by authMiddleware
+        const user = req.user;
+        
+        return res.status(200).json({
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                image: user.image,
+                bio: user.bio,
+                isEmailVerified: user.isEmailVerified
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Failed to get user data'
+        });
+    }
 }
