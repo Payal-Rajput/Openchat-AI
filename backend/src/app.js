@@ -21,4 +21,9 @@ app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/chat', authMiddleware, chatRoutes);
 
+// Test endpoint to check if server is running
+app.get('/test', (req, res) => {
+  res.json({ message: 'Backend server is running!' });
+});
+
 export default app;

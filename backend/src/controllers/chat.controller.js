@@ -9,9 +9,9 @@ export async function createChatController(req, res){
         const { userId, message, imageUrl } = req.body
         const file = req.file
 
-        if(!userId){
-            return res.status(400).json({ message: 'userId is required' })
-        }
+        // Use authenticated user's ID from middleware instead of body
+        const authenticatedUserId = req.user._id
+
         if(!message && !file && !imageUrl){
             return res.status(400).json({ message: 'Provide message text, an image file, or imageUrl' })
         }
@@ -24,7 +24,7 @@ export async function createChatController(req, res){
         
 
         const chatDoc = await chatModel.create({
-            userId,
+            userId: authenticatedUserId,
             userMessage: message || (file ? `[image:${file.mimetype}]` : (imageUrl ? `[imageUrl:${imageUrl}]` : '')),
             aiResponse,
             timestamp: new Date()
@@ -50,13 +50,10 @@ export async function createChatController(req, res){
 
 export async function getChatHistoryController(req, res){
     try{
-        const { userId } = req.query
+        // Use authenticated user's ID from middleware
+        const authenticatedUserId = req.user._id
 
-        if(!userId){
-            return res.status(400).json({ message: 'userId is required' })
-        }
-
-        const chatHistory = await chatModel.find({ userId }).sort({ timestamp: -1 })
+        const chatHistory = await chatModel.find({ userId: authenticatedUserId }).sort({ timestamp: 1 })
         return res.status(200).json({
             message: 'Chat history fetched successfully',
             data: chatHistory

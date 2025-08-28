@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/api';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { authAPI } from "../services/api";
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -16,22 +16,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // 🔹 Check auth status once when app loads
   useEffect(() => {
-    // Check if user is already logged in by checking auth status
     checkAuthStatus();
   }, []);
 
   const checkAuthStatus = async () => {
     try {
-      // Make a request to the /me endpoint to check if user is authenticated
-      const response = await authAPI.getMe();
-      if (response.status === 200) {
-        // If we get here, user is authenticated
+      const response = await authAPI.getMe(); // sends cookie automatically
+      if (response.status === 200 && response.data?.user) {
+        const userData = response.data.user;
+        // Ensure user has _id field for compatibility
+        if (userData && userData.id && !userData._id) {
+          userData._id = userData.id;
+        }
         setIsAuthenticated(true);
-        setUser(response.data.user);
+        setUser(userData);
+      } else {
+        setIsAuthenticated(false);
+        setUser(null);
       }
     } catch (error) {
-      // User is not authenticated
+      // Don't log this error as it's expected when user is not logged in
+      console.log("User not authenticated:", error.response?.status);
       setIsAuthenticated(false);
       setUser(null);
     } finally {
@@ -42,11 +49,14 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await authAPI.login(credentials);
-      const { user: userData } = response.data;
-      
+      // ✅ backend sets cookie automatically, so we just update state
+      const userData = response.data.user;
+      // Ensure user has _id field for compatibility
+      if (userData && userData.id && !userData._id) {
+        userData._id = userData.id;
+      }
       setUser(userData);
       setIsAuthenticated(true);
-      
       return { success: true, user: userData };
     } catch (error) {
       throw error;
@@ -82,11 +92,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await authAPI.logout();
+      await authAPI.logout(); // clears cookie on backend
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
-      // Clear local state regardless of API call success
+      // Clear state locally
       setUser(null);
       setIsAuthenticated(false);
     }
@@ -101,11 +111,12 @@ export const AuthProvider = ({ children }) => {
     verifyOTP,
     resendOTP,
     logout,
+    checkAuthStatus,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading ? children : <div className="h-screen flex items-center justify-center">Loading...</div>}
     </AuthContext.Provider>
   );
 };

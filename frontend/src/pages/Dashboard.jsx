@@ -12,20 +12,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
+    <div className="h-[90vh] bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
       <nav className="bg-white/5 backdrop-blur-sm border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-white">EchoMind Dashboard</h1>
-            <div className="flex items-center space-x-4">
-              <span className="text-white/80">Welcome, {user?.username || 'User'}!</span>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-              >
-                Logout
-              </button>
-            </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-4 ">
+          <div className="flex justify-center items-center ">
+            {/* <h1 className="text-2xl font-bold text-white">EchoMind Dashboard</h1> */}
+            
+              <span className="text-white/80 text-2xl font-bold  ">Welcome, {user?.username || 'User'}!</span>
+             
+           
           </div>
         </div>
       </nav>
@@ -55,13 +51,13 @@ const Dashboard = () => {
           <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
             <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
             <div className="space-y-3">
-              <button className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+              <button onClick={() => navigate('/chat')}   className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                 Start New Chat
               </button>
-              <button className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+              <button onClick={() => navigate('/history')} className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
                 View Chat History
               </button>
-              <button className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors">
+              <button onClick={() => navigate('/settings')}   className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors">
                 Settings
               </button>
             </div>

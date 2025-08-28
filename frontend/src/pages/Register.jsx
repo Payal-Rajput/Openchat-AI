@@ -39,7 +39,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="h-[90vh] grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-7xl mx-auto lg:items-center">
+      <div className="h-[100vh] grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-7xl mx-auto lg:items-center">
         {/* Hero Section - Hidden on mobile, visible on desktop */}
         <div className="hidden lg:block">
           <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 border border-blue-500/25">
