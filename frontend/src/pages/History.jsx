@@ -63,7 +63,7 @@ const History = () => {
   }
 
   return (
-    <div className="h-[89vh] bg-black dark:bg-gray-900 transition-all duration-500">
+    <div className="h-[88vh] bg-black dark:bg-gray-900 transition-all duration-500">
       {/* Fixed Navigation Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/80 dark:bg-gray-800/80 shadow-2xl border-b border-white/20 dark:border-gray-700/50">
         <div className="max-w-7xl mx-auto px-6 py-4 ">

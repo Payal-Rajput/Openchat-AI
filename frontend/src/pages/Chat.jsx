@@ -129,7 +129,7 @@ const Chat = () => {
   }
 
   return (
-    <div className="flex h-[90vh] transition-all duration-500">
+    <div className="flex h-[88vh] transition-all duration-500 ">
       {/* Sidebar */}
       <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} h-[90vh] fixed inset-y-0 left-0 z-50 w-64 backdrop-blur-xl bg-black dark:bg-gray-800/80 shadow-2xl border-r border-white/20 dark:border-gray-700/50 transform transition-all duration-500 ease-in-out lg:relative lg:translate-x-0`}>
         <div className="flex flex-col h-[90vh]">
@@ -209,7 +209,7 @@ const Chat = () => {
 
 
                                    {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black custom-scrollbar">
             {chats.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">

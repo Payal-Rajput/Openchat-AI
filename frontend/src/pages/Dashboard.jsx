@@ -12,7 +12,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-[90vh] bg-black">
+    <div className="h-[88vh] bg-black">
       <nav >
 
         <div className="max-w-7xl mx-auto px-6 py-4 ">

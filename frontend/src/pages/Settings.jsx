@@ -52,25 +52,25 @@ const Settings = () => {
   };
 
   const tabs = [
-    { id: 'profile', name: 'Profile', icon: '👤' },
-    { id: 'theme', name: 'Theme', icon: '🎨' },
-    { id: 'background', name: 'Background', icon: '🖼️' },
-    { id: 'actions', name: 'Actions', icon: '⚙️' },
+    { id: 'profile', name: 'Profile', icon: <i class="ri-user-fill"></i> },
+    { id: 'theme', name: 'Theme', icon: <i class="ri-palette-fill"></i> },
+    { id: 'background', name: 'Background', icon: <i class="ri-image-fill"></i> },
+    { id: 'actions', name: 'Actions', icon: <i class="ri-settings-2-fill"></i> },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-500">
+    <div className="h-[88vh] bg-black  transition-all duration-500">
       <div className="max-w-4xl mx-auto p-6">
-        <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-700/50">
+        <div className="backdrop-blur-xl bg-black dark:bg-gray-800/80 rounded-2xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-700/50">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-6 py-6">
-            <h1 className="text-3xl font-bold text-white mb-2">⚙️ Settings</h1>
-            <p className="text-blue-100 text-lg">Customize your EchoMind experience</p>
+          <div className="bg-gradient-to-r from-black-600 via-zinc-800 to-black px-6 py-6">
+            <h1 className="text-3xl font-bold text-white mb-2"><i class="ri-settings-2-fill"></i> Settings</h1>
+            <p className="text-blue-100 text-lg text-white">Customize your EchoMind experience</p>
           </div>
 
           <div className="flex">
             {/* Sidebar */}
-            <div className="w-64 bg-gray-50/50 dark:bg-gray-700/50 border-r border-white/20 dark:border-gray-600/50 backdrop-blur-sm">
+            <div className="w-64 bg-black dark:bg-gray-700/50 border-r border-white/20 dark:border-gray-600/50 backdrop-blur-sm">
               <nav className="p-4">
                 {tabs.map((tab) => (
                   <button
@@ -78,12 +78,12 @@ const Settings = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl mb-2 transition-all duration-300 ${
                       activeTab === tab.id
-                        ? 'bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 shadow-lg'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-600/50 hover:shadow-md'
+                        ? 'bg-zinc-900 dark:from-blue-900/50 dark:to-purple-900/50 text-gray-700 dark:text-blue-300 shadow-lg'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-zinc-900  hover:shadow-md'
                     }`}
                   >
                     <span className="text-lg">{tab.icon}</span>
-                    <span className="font-medium">{tab.name}</span>
+                    <span className="font-medium text-gray-400">{tab.name}</span>
                   </button>
                 ))}
               </nav>
@@ -94,40 +94,40 @@ const Settings = () => {
               {/* Profile Tab */}
               {activeTab === 'profile' && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Profile Information</h2>
+                  <h2 className="text-xl font-semibold text-white dark:text-white">Profile Information</h2>
                   
-                                     <div className="backdrop-blur-sm bg-white/50 dark:bg-gray-700/50 rounded-2xl p-6 border border-white/20 dark:border-gray-600/50">
+                                     <div className="backdrop-blur-sm bg-white/500 dark:bg-gray-700/50 rounded-2xl p-6 border border-white/20 dark:border-gray-600/50">
                      <div className="flex items-center space-x-4 mb-4">
-                       <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-700 dark:to-purple-700 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                       <div className="w-16 h-16 bg-gradient-to-r from-zinc-500 to-gray-900 dark:from-blue-700 dark:to-purple-700 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
                          {user?.username?.charAt(0).toUpperCase()}
                        </div>
                        <div>
-                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{user?.username}</h3>
-                         <p className="text-gray-600 dark:text-gray-300">{user?.email}</p>
+                         <h3 className="text-lg font-semibold text-gray-800 text-zinc-300">{user?.username}</h3>
+                         <p className="text-gray-500 dark:text-gray-300">{user?.email}</p>
                        </div>
                      </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-400 dark:text-gray-300 mb-2">
                           Username
                         </label>
                         <input
                           type="text"
                           value={user?.username || ''}
                           disabled
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-300"
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-zinc-900 dark:bg-gray-600 text-gray-500 dark:text-gray-300"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-gray-400 dark:text-gray-300 mb-2">
                           Email
                         </label>
                         <input
                           type="email"
                           value={user?.email || ''}
                           disabled
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-300"
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-zinc-900 dark:bg-gray-600 text-gray-500 dark:text-gray-300"
                         />
                       </div>
                     </div>
@@ -138,13 +138,13 @@ const Settings = () => {
               {/* Theme Tab */}
               {activeTab === 'theme' && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Theme Settings</h2>
+                  <h2 className="text-xl font-semibold text-white dark:text-white">Theme Settings</h2>
                   
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                  <div className="bg-zinc-900 dark:bg-gray-700 rounded-lg p-6">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <h3 className="text-lg font-medium text-gray-800 dark:text-white">Dark Mode</h3>
-                        <p className="text-gray-600 dark:text-gray-300">Switch between light and dark themes</p>
+                        <h3 className="text-lg font-medium text-gray-400 dark:text-white">Dark Mode</h3>
+                        <p className="text-gray-500 dark:text-gray-300">Switch between light and dark themes</p>
                       </div>
                       <button
                         onClick={toggleTheme}
@@ -156,7 +156,7 @@ const Settings = () => {
                     </div>
                     
                     <div className="mt-6">
-                      <h4 className="text-md font-medium text-gray-800 dark:text-white mb-3">Chat Background</h4>
+                      <h4 className="text-md font-medium text-zinc-400 dark:text-white mb-3">Chat Background</h4>
                       <div className="grid grid-cols-5 gap-3">
                         {chatBackgroundColors.map((color) => (
                           <button
@@ -180,11 +180,11 @@ const Settings = () => {
               {/* Background Tab */}
               {activeTab === 'background' && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Background Settings</h2>
+                  <h2 className="text-xl font-semibold text-white dark:text-white">Background Settings</h2>
                   
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                    <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">Main Background Color</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">Choose a background color for the main application</p>
+                  <div className="bg-zinc-900 dark:bg-gray-700 rounded-lg p-6">
+                    <h3 className="text-lg font-medium text-gray-300 dark:text-white mb-4">Main Background Color</h3>
+                    <p className="text-gray-300 dark:text-gray-300 mb-4">Choose a background color for the main application</p>
                     
                     <div className="grid grid-cols-5 gap-3">
                       {backgroundColors.map((color) => (
@@ -205,7 +205,7 @@ const Settings = () => {
                     <div className="mt-4">
                       <button
                         onClick={() => changeBackgroundColor('#f9fafb')}
-                        className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                        className="px-4 py-2 bg-black dark:bg-gray-600 text-gray-300 dark:text-gray-300 rounded-lg hover:bg-zinc-800 dark:hover:bg-gray-500 transition-colors"
                       >
                         Reset to Default
                       </button>
@@ -217,57 +217,57 @@ const Settings = () => {
               {/* Actions Tab */}
               {activeTab === 'actions' && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Quick Actions</h2>
+                  <h2 className="text-xl font-semibold text-white dark:text-white">Quick Actions</h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button
                       onClick={handleNewChat}
-                      className="p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors text-left"
+                      className="p-6 bg-zinc-900 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg hover:bg-black dark:hover:bg-blue-900/30 transition-colors text-left"
                     >
                       <div className="flex items-center space-x-3">
-                        <span className="text-2xl">💬</span>
+                        <span className="text-2xl text-white"><i class="ri-cloud-fill"></i></span>
                         <div>
-                          <h3 className="font-semibold text-blue-800 dark:text-blue-300">Start New Chat</h3>
-                          <p className="text-blue-600 dark:text-blue-400 text-sm">Begin a fresh conversation</p>
+                          <h3 className="font-semibold text-white dark:text-blue-300">Start New Chat</h3>
+                          <p className="text-zinc-400 dark:text-blue-400 text-sm">Begin a fresh conversation</p>
                         </div>
                       </div>
                     </button>
 
                     <button
                       onClick={() => navigate('/history')}
-                      className="p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-left"
+                      className="p-6 bg-zinc-900 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg hover:bg-black dark:hover:bg-green-900/30 transition-colors text-left"
                     >
                       <div className="flex items-center space-x-3">
-                        <span className="text-2xl">📚</span>
+                        <span className="text-2xl text-white"><i class="ri-book-open-fill"></i></span>
                         <div>
-                          <h3 className="font-semibold text-green-800 dark:text-green-300">View History</h3>
-                          <p className="text-green-600 dark:text-green-400 text-sm">See your chat history</p>
+                          <h3 className="font-semibold text-white dark:text-green-300">View History</h3>
+                          <p className="text-zinc-400 dark:text-green-400 text-sm">See your chat history</p>
                         </div>
                       </div>
                     </button>
 
                     <button
                       onClick={() => navigate('/dashboard')}
-                      className="p-6 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors text-left"
+                      className="p-6 bg-zinc-900 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-black dark:hover:bg-purple-900/30 transition-colors text-left"
                     >
                       <div className="flex items-center space-x-3">
-                        <span className="text-2xl">📊</span>
+                        <span className="text-2xl text-white"><i class="ri-dashboard-fill"></i></span>
                         <div>
-                          <h3 className="font-semibold text-purple-800 dark:text-purple-300">Dashboard</h3>
-                          <p className="text-purple-600 dark:text-purple-400 text-sm">View your statistics</p>
+                          <h3 className="font-semibold text-white dark:text-purple-300">Dashboard</h3>
+                          <p className="text-zinc-400 dark:text-purple-400 text-sm">View your statistics</p>
                         </div>
                       </div>
                     </button>
 
                     <button
                       onClick={handleLogout}
-                      className="p-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-left"
+                      className="p-6 bg-zinc-900 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg hover:bg-black dark:hover:bg-red-900/30 transition-colors text-left"
                     >
                       <div className="flex items-center space-x-3">
-                        <span className="text-2xl">🚪</span>
+                        <span className="text-2xl"><i class="ri-logout-circle-fill"></i></span>
                         <div>
-                          <h3 className="font-semibold text-red-800 dark:text-red-300">Logout</h3>
-                          <p className="text-red-600 dark:text-red-400 text-sm">Sign out of your account</p>
+                          <h3 className="font-semibold text-white dark:text-red-300">Logout</h3>
+                          <p className="text-zinc-400 dark:text-red-400 text-sm">Sign out of your account</p>
                         </div>
                       </div>
                     </button>
