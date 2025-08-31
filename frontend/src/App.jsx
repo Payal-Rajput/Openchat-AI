@@ -17,7 +17,8 @@ const Navigation = () => {
   
   if (isAuthenticated) {
     return (
-      <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
+      <nav className="flex justify-between items-center py-5 px-10 border-b border-white/20  w-[100vw] mx-auto bg-black">
+      {/* <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto bg-red-300"> */}
         <div>
           <h1 className='text-white text-2xl font-bold'>ECHOMIND</h1>
         </div>
@@ -38,7 +39,11 @@ const Navigation = () => {
             onClick={toggleTheme}
             className="text-white/80 hover:text-white transition-colors p-2 rounded-lg bg-white/10"
           >
-            {isDarkMode ? '☀️' : '🌙'}
+            {isDarkMode ? (
+              <i className="ri-sun-fill text-xl"></i>
+            ) : (
+              <i className="ri-moon-fill text-xl"></i>
+            )}
           </button>
         </div>
       </nav>
@@ -46,7 +51,7 @@ const Navigation = () => {
   }
   
   return (
-    <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
+    <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto ">
       <Link to="/login" className="text-white/80 hover:text-white transition-colors">
         Login
       </Link>

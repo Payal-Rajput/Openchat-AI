@@ -63,17 +63,23 @@ const History = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-all duration-500">
+    <div className="h-[89vh] bg-black dark:bg-gray-900 transition-all duration-500">
       {/* Fixed Navigation Bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 shadow-2xl border-b border-white/20 dark:border-gray-700/50">
-        <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/80 dark:bg-gray-800/80 shadow-2xl border-b border-white/20 dark:border-gray-700/50">
+        <div className="max-w-7xl mx-auto px-6 py-4 ">
+            <h1
+              className="text-red-700 absolute left-5 top-8 text-2xl cursor-pointer"
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              <i className="ri-arrow-left-long-line"></i>
+            </h1>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">📚 Chat History</h1>
-              <p className="text-gray-600 dark:text-gray-400 text-lg">View all your conversations</p>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-zinc-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">📚 Chat History</h1>
+              <p className="text-zinc-300 dark:text-gray-400 text-lg">View all your conversations</p>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500 dark:text-gray-400 bg-white/50 dark:bg-gray-700/50 px-3 py-1 rounded-full backdrop-blur-sm">
+              <span className="text-sm text-white  bg-zinc-800 dark:bg-gray-700/50 px-4 py-2 rounded-full backdrop-blur-sm">
                 Total Chats: {chatHistory.length}
               </span>
             </div>
@@ -82,7 +88,7 @@ const History = () => {
       </div>
 
       {/* Main Content with top padding for fixed nav */}
-      <div className="pt-24 pb-8">
+      <div className="pt-10 max-h-[89vh] pb-8 ">
         <div className="max-w-7xl mx-auto px-6">
           {loading ? (
             <div className="flex items-center justify-center h-64">
@@ -98,20 +104,20 @@ const History = () => {
               <p className="text-gray-600 dark:text-gray-400">Start a conversation to see your chat history here.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">
               {/* Chat List */}
-              <div className="lg:col-span-1">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+              <div className="lg:col-span-1 ">
+                <div className="bg-zinc-900  rounded-lg shadow-lg overflow-hidden">
                   <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Recent Chats</h2>
+                    <h2 className="text-lg font-semibold text-white ">Recent Chats</h2>
                   </div>
-                  <div className="max-h-96 overflow-y-auto">
+                  <div className="max-h-[60vh] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     {chatHistory.map((chat) => (
                       <button
                         key={chat._id}
                         onClick={() => setSelectedChat(chat)}
-                        className={`w-full text-left p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
-                          selectedChat?._id === chat._id ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' : ''
+                        className={`w-full text-left p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-zinc-800 dark:hover:bg-gray-700 transition-colors ${
+                          selectedChat?._id === chat._id ? ' dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' : ''
                         }`}
                       >
                         <div className="flex items-start space-x-3">
@@ -119,7 +125,7 @@ const History = () => {
                             {user?.username?.charAt(0).toUpperCase()}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-gray-800 dark:text-white truncate">
+                            <p className="text-sm font-medium text-gray-300  truncate">
                               {getChatPreview(chat.userMessage)}
                             </p>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -133,22 +139,25 @@ const History = () => {
                 </div>
               </div>
 
+
               {/* Chat Details */}
               <div className="lg:col-span-2">
+
                 {selectedChat ? (
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                  <div className="bg-zinc-900/70 backdrop-blur-sm border border-white/10  rounded-lg shadow-lg overflow-hidden ">
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                      <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Chat Details</h2>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <h2 className="text-lg font-semibold text-white dark:text-white">Chat Details</h2>
+                      <p className="text-sm text-gray-400 dark:text-gray-400">
                         {formatDate(selectedChat.timestamp)}
                       </p>
                     </div>
-                    <div className="p-6 space-y-4">
+
+                    <div className="h-[70vh] overflow-y-auto p-6 space-y-4 bg-zinc-900/10  backdrop-blur-sm border border-white/10 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                       {/* User Message */}
-                      <div className="flex justify-end">
-                        <div className="max-w-2xl px-4 py-3 rounded-xl bg-blue-600 dark:bg-blue-700 text-white">
+                      <div className="flex justify-end ">
+                        <div className="max-w-2xl px-4 py-3 rounded-xl bg-zinc-800  text-white">
                           <p className="text-sm">{selectedChat.userMessage}</p>
-                          <div className="text-xs text-blue-200 mt-1 text-right">
+                          <div className="text-xs text-gray-400 mt-1 text-right">
                             {formatDate(selectedChat.timestamp)}
                           </div>
                         </div>
@@ -156,25 +165,27 @@ const History = () => {
                       
                       {/* AI Response */}
                       {selectedChat.aiResponse && (
-                        <div className="flex justify-start">
-                          <div className="max-w-2xl px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                            <p className="text-sm whitespace-pre-wrap">{selectedChat.aiResponse}</p>
-                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-right">
+                        <div className="flex justify-start  ">
+                          <div className="max-w-2xl px-4 py-3 rounded-xl bg-zinc-800 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
+                            <p className="text-sm text-white whitespace-pre-wrap">{selectedChat.aiResponse}</p>
+                            <div className="text-xs text-gray-400  mt-1 text-right">
                               {formatDate(selectedChat.timestamp)}
                             </div>
                           </div>
                         </div>
                       )}
                     </div>
+
                   </div>
                 ) : (
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+                  <div className="bg-zinc-900/50 backdrop-blur-sm border border-white/10 rounded-lg shadow-lg p-8 text-center">
                     <div className="text-4xl mb-4">💬</div>
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Select a Chat</h3>
-                    <p className="text-gray-600 dark:text-gray-400">Choose a conversation from the list to view its details.</p>
+                    <h3 className="text-lg font-semibold text-white  mb-2">Select a Chat</h3>
+                    <p className="text-white ">Choose a conversation from the list to view its details.</p>
                   </div>
                 )}
               </div>
+
             </div>
           )}
         </div>

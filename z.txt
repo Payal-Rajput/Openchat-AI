@@ -12,9 +12,16 @@ Backend
 
 
     ❌
-    dark light theme 
+   
     responsive
     audio
     pdf
     google login 
     deploy 
+
+
+    ❌
+    delete
+    apply color nicesly
+    theme
+    pdf img copy paste 

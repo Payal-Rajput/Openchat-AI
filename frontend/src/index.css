@@ -7,3 +7,17 @@ body {
   overflow-x: hidden;
 }
 
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 7px;               /* Thin scrollbar */
+}
+
+
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #585858; /* Thumb color (blue-600) */
+  border-radius: 9999px;    /* Rounded scrollbar */
+}
+
+
