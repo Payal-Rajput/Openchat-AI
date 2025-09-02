@@ -11,6 +11,7 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
+  const [isNewChat, setIsNewChat] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Debug authentication state - remove in production
@@ -49,8 +50,12 @@ const Chat = () => {
           }
         }
       }
-      setChats(chatData);
       setChatHistory(chatData);
+      // Auto-load the most recent chat unless user explicitly started a new chat
+      if (!isNewChat && chatData.length > 0 && chats.length === 0) {
+        const latest = chatData[chatData.length - 1];
+        setChats([latest]);
+      }
     } catch (error) {
       console.error("Error fetching chat history:", error.response?.data || error.message);
       if (error.response?.status === 401) {
@@ -80,14 +85,16 @@ const Chat = () => {
 
       // Add both user message and AI response to chat
       const newChat = {
-        _id: res.data.id,
+        _id: res.data?.id || res.data?._id,
         userId: user.id,
-        userMessage: message, // User message
-        aiResponse: res.data.aiResponse, // AI response
-        timestamp: new Date()
+        userMessage: message,
+        aiResponse: res.data?.aiResponse ?? res.data?.data?.aiResponse ?? res.data?.response ?? "",
+        timestamp: res.data?.timestamp ? new Date(res.data.timestamp) : new Date()
       };
 
       setChats((prev) => [...prev, newChat]);
+      setChatHistory((prev) => [newChat, ...prev]);
+      setIsNewChat(false);
       setMessage("");
     } catch (error) {
       console.error("Error creating chat:", error.response?.data || error.message);
@@ -104,12 +111,16 @@ const Chat = () => {
   const startNewChat = () => {
     setChats([]);
     setMessage("");
+    setIsNewChat(true);
   };
 
   const loadChat = (chatId) => {
-    // For now, just reload all chats
-    // In a real app, you'd load specific chat by ID
-    fetchChatHistory();
+    // Load only the selected chat into the main view
+    const selected = chatHistory.find((c) => c._id === chatId);
+    if (selected) {
+      setChats([selected]);
+      setIsNewChat(false);
+    }
   };
 
   if (authLoading) {
@@ -209,7 +220,7 @@ const Chat = () => {
 
 
                                    {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-black custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-8 space-y-4 bg-black custom-scrollbar">
             {chats.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
@@ -226,12 +237,12 @@ const Chat = () => {
             ) : (
               chats.map((chat) => (
 
-                <div key={chat._id} className="space-y-4">
+                <div key={chat._id} className="space-y-4 ">
                   {/* User Message */}
 
                   <div className="flex justify-end">
-                    <div className="max-w-3xl px-6 py-3 rounded-2xl bg-gradient-to-r from-red-600 to-black dark:from-blue-700 dark:to-purple-700 text-white shadow-lg backdrop-blur-sm">
-                      <p className="text-sm">{chat.userMessage}</p>
+                    <div className="max-w-3xl px-6 py-3 rounded-2xl bg-zinc-900 dark:from-blue-700 dark:to-purple-700 text-white shadow-lg backdrop-blur-sm">
+                      <p className="text-base">{chat.userMessage}</p>
                       <div className="text-xs text-blue-200 mt-2 text-right">
                         {new Date(chat.timestamp).toLocaleTimeString()}
                       </div>
@@ -241,8 +252,8 @@ const Chat = () => {
                   {/* AI Response */}
                   {chat.aiResponse && (
                     <div className="flex justify-start">
-                      <div className="max-w-3xl px-6 py-3 rounded-2xl  bg-zinc-900 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 shadow-lg backdrop-blur-sm border border-white/20 dark:border-gray-700/50">
-                        <p className="text-sm whitespace-pre-wrap text-white">{chat.aiResponse}</p>
+                      <div className="max-w-7xl px-6 py-3 rounded-2xl  dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 shadow-lg backdrop-blur-sm  dark:border-gray-700/50">
+                        <p className="text-base whitespace-pre-wrap text-white">{chat.aiResponse}</p>
                         <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-right">
                           {new Date(chat.timestamp).toLocaleTimeString()}
                         </div>
