@@ -96,8 +96,8 @@ const OTPModal = ({ isOpen, onClose, email, onSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-full max-w-md">
+    <div className="fixed inset-0 bg-black/50  backdrop-blur-sm flex items-center justify-center p-4 z-[999999]">
+      <div className="relative bg-zinc-900  backdrop-blur-sm border border-white/20 rounded-2xl p-6 w-full max-w-md">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white mb-2">Verify Your Email</h2>
           <p className="text-white/70 text-sm">

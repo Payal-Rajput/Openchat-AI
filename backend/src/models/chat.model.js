@@ -6,6 +6,11 @@ const chatSchema = new mongoose.Schema({
         ref: 'userai',
         required: true
     },
+    threadId: {
+        type: String,
+        index: true,
+        default: null
+    },
     userMessage: {
         type: String,
         required: true,

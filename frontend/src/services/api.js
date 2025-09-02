@@ -41,6 +41,8 @@ export const chatAPI = {
       headers: { "Content-Type": "application/json" },
     });
   },
+  deleteAllChats: () => api.delete('/chat/delete-all'),
+  deleteChat: (id) => api.delete(`/chat/${id}`),
 };
 
 

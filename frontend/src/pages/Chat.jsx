@@ -12,6 +12,7 @@ const Chat = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [isNewChat, setIsNewChat] = useState(false);
+  const [activeThreadId, setActiveThreadId] = useState(() => localStorage.getItem('activeThreadId') || "");
   const messagesEndRef = useRef(null);
 
   // Debug authentication state - remove in production
@@ -51,10 +52,12 @@ const Chat = () => {
         }
       }
       setChatHistory(chatData);
-      // Auto-load the most recent chat unless user explicitly started a new chat
-      if (!isNewChat && chatData.length > 0 && chats.length === 0) {
-        const latest = chatData[chatData.length - 1];
-        setChats([latest]);
+      // Filter main view by current thread if set
+      if (activeThreadId) {
+        const filtered = chatData.filter(c => c.threadId === activeThreadId);
+        setChats(filtered);
+      } else if (!isNewChat && chatData.length > 0 && chats.length === 0) {
+        setChats(chatData);
       }
     } catch (error) {
       console.error("Error fetching chat history:", error.response?.data || error.message);
@@ -81,12 +84,14 @@ const Chat = () => {
     try {
       const res = await chatAPI.createChat({
         message,
+        threadId: activeThreadId || undefined,
       });
 
       // Add both user message and AI response to chat
       const newChat = {
         _id: res.data?.id || res.data?._id,
         userId: user.id,
+        threadId: res.data?.threadId || activeThreadId || "",
         userMessage: message,
         aiResponse: res.data?.aiResponse ?? res.data?.data?.aiResponse ?? res.data?.response ?? "",
         timestamp: res.data?.timestamp ? new Date(res.data.timestamp) : new Date()
@@ -112,6 +117,9 @@ const Chat = () => {
     setChats([]);
     setMessage("");
     setIsNewChat(true);
+    const newThread = `${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    setActiveThreadId(newThread);
+    localStorage.setItem('activeThreadId', newThread);
   };
 
   const loadChat = (chatId) => {
@@ -120,6 +128,12 @@ const Chat = () => {
     if (selected) {
       setChats([selected]);
       setIsNewChat(false);
+      if (selected.threadId) {
+        setActiveThreadId(selected.threadId);
+        localStorage.setItem('activeThreadId', selected.threadId);
+        const filtered = chatHistory.filter(c => c.threadId === selected.threadId);
+        setChats(filtered);
+      }
     }
   };
 
@@ -161,6 +175,22 @@ const Chat = () => {
              >
               <i class="ri-sparkling-fill"></i> New Chat
              </button>
+            <button
+              onClick={async () => {
+                if (!window.confirm('Delete all conversations? This cannot be undone.')) return;
+                try {
+                  await chatAPI.deleteAllChats();
+                  setChats([]);
+                  setChatHistory([]);
+                  setIsNewChat(true);
+                } catch (e) {
+                  alert('Failed to delete chats. Please try again.');
+                }
+              }}
+              className="w-full mt-2 px-4 py-3 bg-red-800 text-white rounded-xl hover:bg-red-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              <i class="ri-delete-bin-6-line"></i> Clear conversations
+            </button>
            </div>
 
                                            {/* Chat History */}
@@ -173,13 +203,49 @@ const Chat = () => {
               ) : (
                 <div className="space-y-2 ">
                   {chatHistory.slice(0, 10).map((chat, index) => (
-                    <button
-                      key={chat._id || index}
-                      onClick={() => loadChat(chat._id)}
-                      className="w-full text-left p-3 rounded-xl hover:bg-zinc-900 dark:hover:bg-gray-700/50 transition-all duration-300 text-sm text-white dark:text-gray-300 truncate border border-transparent hover:border-white/20 dark:hover:border-gray-600/50"
-                    >
-                      {chat.userMessage?.substring(0, 30)}...
-                    </button>
+                    <div key={chat._id || index} className="w-full flex items-center justify-between gap-2">
+                      <button
+                        onClick={() => loadChat(chat._id)}
+                        className="flex-1 text-left p-3 rounded-xl hover:bg-zinc-900 dark:hover:bg-gray-700/50 transition-all duration-300 text-sm text-white dark:text-gray-300 truncate border border-transparent hover:border-white/20 dark:hover:border-gray-600/50"
+                      >
+                        {chat.userMessage?.substring(0, 30)}...
+                      </button>
+                      <button
+                        title="Delete conversation"
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          if (!window.confirm('Delete this conversation?')) return;
+                          try {
+                            console.log('Attempting to delete chat:', chat._id);
+                            const response = await chatAPI.deleteChat(chat._id);
+                            console.log('Delete response:', response);
+                            console.log('Response data:', response.data);
+                            console.log('Response status:', response.status);
+                            
+                            // Log current state before update
+                            console.log('Current chatHistory:', chatHistory);
+                            console.log('Current chats:', chats);
+                            
+                            setChatHistory((prev) => {
+                              const filtered = prev.filter((c) => c._id !== chat._id);
+                              console.log('Updated chatHistory:', filtered);
+                              return filtered;
+                            });
+                            setChats((prev) => {
+                              const filtered = prev.filter((c) => c._id !== chat._id);
+                              console.log('Updated chats:', filtered);
+                              return filtered;
+                            });
+                          } catch (err) {
+                            console.error('Delete error:', err);
+                            alert('Failed to delete conversation.');
+                          }
+                        }}
+                        className="p-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-lg transition-colors"
+                      >
+                        <i class="ri-delete-bin-5-line"></i>
+                      </button>
+                    </div>
                   ))}
                 </div>
               )}
