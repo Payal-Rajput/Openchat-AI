@@ -146,7 +146,7 @@ const Chat = () => {
              </div>
              <button
                onClick={startNewChat}
-               className="w-full mt-3 px-4 py-3 bg-gradient-to-r from-gray-600 to-zinc-800 dark:from-blue-700 dark:to-purple-700 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 dark:hover:from-blue-800 dark:hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+               className="w-full mt-3 px-4 py-3 bg-gradient-to-r from-gray-600 to-zinc-800 dark:from-blue-700 dark:to-purple-700 text-white rounded-xl hover:from-gray-700  hover:to-zinc-900 dark:hover:from-blue-800 dark:hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
              >
               <i class="ri-sparkling-fill"></i> New Chat
              </button>
@@ -188,7 +188,7 @@ const Chat = () => {
                 </div>
                 <button
                   onClick={logout}
-                  className="text-sm text-gray-400 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-300 p-2 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
+                  className="text-sm text-gray-400 hover:text-gray-200 dark:text-gray-400 dark:hover:text-red-400 transition-colors duration-300 p-2  dark:hover:bg-red-900/20 rounded-lg"
                 >
                   <i class="ri-logout-circle-line"></i>  Logout
                 </button>
@@ -213,8 +213,8 @@ const Chat = () => {
             {chats.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
-                  <div className="text-6xl mb-4 animate-bounce">✨</div>
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">Welcome to EchoMind!</h3>
+                  <div className="text-6xl text-white mb-4 animate-bounce"> <i class="ri-sparkling-2-fill"></i> </div>
+                  <h3 className="text-2xl font-bold bg-gradient-to-r text-white  bg-clip-text text-transparent mb-2">Welcome to EchoMind!</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-lg">Start a conversation by typing a message below.</p>
                   <div className="mt-4 flex justify-center space-x-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>

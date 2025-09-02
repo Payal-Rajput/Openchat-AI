@@ -35,17 +35,17 @@ const Login = () => {
   }
 
   return (
-    <div className="h-[100vh] grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-7xl mx-auto lg:items-center">
+    <div className="h-[100vh]  px-30 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-9xl mx-auto lg:items-center  bg-black  text-white">
       {/* Hero Section - Hidden on mobile, visible on desktop */}
-      <div className="hidden lg:block">
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 border border-blue-500/25">
+      <div className="hidden lg:block z-[999999]">
+        <div className="p-6 rounded-2xl bg-gradient-to-br from-black to-gray-900 border border-blue-500/25">
           <h2 className="text-4xl font-bold mb-3 text-white">Welcome back to EchoMind</h2>
           <p className="text-lg text-white/90">Continue your conversations powered by AI. Secure and fast access.</p>
         </div>
       </div>
       
       {/* Form Card */}
-      <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-2xl">
+      <div className="bg-black backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-2xl ">
         <h1 className="text-3xl font-bold mb-2 text-white">Login</h1>
         <p className="text-sm text-white/70 mb-6">Use your email and password to access your account</p>
         

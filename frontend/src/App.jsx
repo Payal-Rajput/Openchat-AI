@@ -51,7 +51,7 @@ const Navigation = () => {
   }
   
   return (
-    <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto ">
+    <nav className="flex justify-between items-center py-6 px-40 mx-auto bg-black  absolute w-full">
       <Link to="/login" className="text-white/80 hover:text-white transition-colors">
         Login
       </Link>
@@ -75,7 +75,7 @@ const AppContent = () => {
       style={{ backgroundColor: backgroundColor }}
     >
       {/* Floating Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none ">
         {/* Floating circles */}
         <div className={`absolute top-20 left-10 w-32 h-32 rounded-full opacity-20 animate-pulse ${
           isDarkMode ? 'bg-purple-500' : 'bg-blue-400'
@@ -100,6 +100,9 @@ const AppContent = () => {
       </div>
 
       <Navigation />
+
+
+
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -139,6 +142,9 @@ const AppContent = () => {
           } 
         />
       </Routes>
+
+
+      
       <Toaster 
         position="top-right"
         toastOptions={{

@@ -39,9 +39,9 @@ const Register = () => {
 
   return (
     <>
-      <div className="h-[100vh] grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-7xl mx-auto lg:items-center">
+      <div className="h-[100vh]  grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 p-6 max-w-9xl px-30  mx-auto lg:items-center bg-black text-white">
         {/* Hero Section - Hidden on mobile, visible on desktop */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:block z-[999999]">
           <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 border border-blue-500/25">
             <h2 className="text-4xl font-bold mb-3 text-white">Create your EchoMind account</h2>
             <p className="text-lg text-white/90">Verify your email to unlock full access and personalized chat history.</p>

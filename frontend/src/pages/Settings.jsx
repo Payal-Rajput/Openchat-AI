@@ -264,7 +264,7 @@ const Settings = () => {
                       className="p-6 bg-zinc-900 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg hover:bg-black dark:hover:bg-red-900/30 transition-colors text-left"
                     >
                       <div className="flex items-center space-x-3">
-                        <span className="text-2xl"><i class="ri-logout-circle-fill"></i></span>
+                        <span className="text-2xl text-white"><i class="ri-logout-circle-fill"></i></span>
                         <div>
                           <h3 className="font-semibold text-white dark:text-red-300">Logout</h3>
                           <p className="text-zinc-400 dark:text-red-400 text-sm">Sign out of your account</p>
