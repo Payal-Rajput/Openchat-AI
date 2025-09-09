@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { useNavigate } from "react-router-dom";
+import ColorWheelPicker from "../components/ColorWheelPicker";
+import { validateHexColor, normalizeHexColor } from "../config/theme";
 
 const Settings = () => {
   const { user, logout } = useAuth();
@@ -59,18 +61,18 @@ const Settings = () => {
   ];
 
   return (
-    <div className="h-[88vh] bg-black  transition-all duration-500">
-      <div className="max-w-4xl mx-auto p-6">
-        <div className="backdrop-blur-xl bg-black dark:bg-gray-800/80 rounded-2xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-700/50">
+    <div className="h-[88vh] bg-black transition-all duration-500 overflow-hidden">
+      <div className="h-full max-w-4xl mx-auto p-6">
+        <div className="h-full backdrop-blur-xl bg-black dark:bg-gray-800/80 rounded-2xl shadow-2xl overflow-hidden border border-white/20 dark:border-gray-700/50 flex flex-col">
           {/* Header */}
           <div className="bg-gradient-to-r from-black-600 via-zinc-800 to-black px-6 py-6">
             <h1 className="text-3xl font-bold text-white mb-2"><i class="ri-settings-2-fill"></i> Settings</h1>
             <p className="text-blue-100 text-lg text-white">Customize your EchoMind experience</p>
           </div>
 
-          <div className="flex">
+          <div className="flex flex-1 overflow-hidden">
             {/* Sidebar */}
-            <div className="w-64 bg-black dark:bg-gray-700/50 border-r border-white/20 dark:border-gray-600/50 backdrop-blur-sm">
+            <div className="w-64 bg-black dark:bg-gray-700/50 border-r border-white/20 dark:border-gray-600/50 backdrop-blur-sm flex-shrink-0">
               <nav className="p-4">
                 {tabs.map((tab) => (
                   <button
@@ -90,7 +92,7 @@ const Settings = () => {
             </div>
 
             {/* Content */}
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 overflow-y-auto">
               {/* Profile Tab */}
               {activeTab === 'profile' && (
                 <div className="space-y-6">
@@ -140,8 +142,29 @@ const Settings = () => {
                 <div className="space-y-6">
                   <h2 className="text-xl font-semibold text-white dark:text-white">Theme Settings</h2>
                   
+                  {/* Live Preview */}
+                  <div className="bg-zinc-800 dark:bg-gray-600 rounded-lg p-4 border border-white/20">
+                    <h3 className="text-lg font-medium text-white mb-3">Live Preview</h3>
+                    <div 
+                      className="w-full h-32 rounded-lg border-2 border-white/30 transition-all duration-500"
+                      style={{ backgroundColor: chatBackgroundColor }}
+                    >
+                      <div className="flex items-center justify-center h-full">
+                        <div className="text-center">
+                          <div className="text-2xl mb-2">💬</div>
+                          <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                            Chat Preview
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2 text-center">
+                      This shows how your chat area will look
+                    </p>
+                  </div>
+                  
                   <div className="bg-zinc-900 dark:bg-gray-700 rounded-lg p-6">
-                    <div className="flex items-center justify-between mb-4">
+                    {/* <div className="flex items-center justify-between mb-4">
                       <div>
                         <h3 className="text-lg font-medium text-gray-400 dark:text-white">Dark Mode</h3>
                         <p className="text-gray-500 dark:text-gray-300">Switch between light and dark themes</p>
@@ -153,24 +176,73 @@ const Settings = () => {
                         <span>{isDarkMode ? '☀️' : '🌙'}</span>
                         <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
                       </button>
-                    </div>
+                    </div> */}
                     
                     <div className="mt-6">
-                      <h4 className="text-md font-medium text-zinc-400 dark:text-white mb-3">Chat Background</h4>
-                      <div className="grid grid-cols-5 gap-3">
-                        {chatBackgroundColors.map((color) => (
-                          <button
-                            key={color.value}
-                            onClick={() => changeChatBackgroundColor(color.value)}
-                            className={`w-12 h-12 rounded-lg border-2 transition-all ${
-                              chatBackgroundColor === color.value
-                                ? 'border-blue-500 scale-110'
-                                : 'border-gray-300 dark:border-gray-600 hover:scale-105'
-                            }`}
-                            style={{ backgroundColor: color.value }}
-                            title={color.name}
+                      <h4 className="text-md font-medium text-zinc-400 dark:text-white mb-3">Chat Background Color</h4>
+                      
+                      {/* Color Wheel Picker */}
+                      <div className="flex justify-center mb-4">
+                        <div className="scale-75">
+                          <ColorWheelPicker
+                            onColorSelect={changeChatBackgroundColor}
+                            selectedColor={chatBackgroundColor}
+                            // title="Choose Chat Background Color"
                           />
-                        ))}
+                        </div>
+                      </div>
+                      
+                      {/* Quick Preset Colors */}
+                      {/* <div className="mt-4">
+                        <h5 className="text-sm font-medium text-gray-400 dark:text-gray-300 mb-3">Quick Presets</h5>
+                        <div className="grid grid-cols-5 gap-3">
+                          {chatBackgroundColors.map((color) => (
+                            <button
+                              key={color.value}
+                              onClick={() => changeChatBackgroundColor(color.value)}
+                              className={`w-12 h-12 rounded-lg border-2 transition-all ${
+                                chatBackgroundColor === color.value
+                                  ? 'border-blue-500 scale-110'
+                                  : 'border-gray-300 dark:border-gray-600 hover:scale-105'
+                              }`}
+                              style={{ backgroundColor: color.value }}
+                              title={color.name}
+                            />
+                          ))}
+                        </div>
+                      </div> */}
+                      
+                      {/* Custom Color Input */}
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-400 dark:text-gray-300 mb-2">
+                          Custom Color (Hex)
+                        </label>
+                        <div className="flex items-center space-x-3">
+                          <input
+                            type="color"
+                            value={chatBackgroundColor}
+                            onChange={(e) => changeChatBackgroundColor(e.target.value)}
+                            className="w-12 h-12 rounded-lg border-2 border-gray-300 dark:border-gray-600 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={chatBackgroundColor}
+                            onChange={(e) => {
+                              const normalizedColor = normalizeHexColor(e.target.value);
+                              if (validateHexColor(normalizedColor)) {
+                                changeChatBackgroundColor(normalizedColor);
+                              }
+                            }}
+                            placeholder="#ffffff"
+                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-zinc-900 dark:bg-gray-600 text-gray-300 dark:text-gray-300 font-mono text-sm"
+                          />
+                          <button
+                            onClick={() => changeChatBackgroundColor('#ffffff')}
+                            className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors text-sm"
+                          >
+                            Reset
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

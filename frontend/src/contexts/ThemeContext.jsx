@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { THEME_CONFIG } from "../config/theme";
 
 const ThemeContext = createContext();
 
@@ -12,22 +13,22 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const saved = localStorage.getItem('isDarkMode');
+    const saved = localStorage.getItem(THEME_CONFIG.STORAGE_KEYS.DARK_MODE);
     return saved ? JSON.parse(saved) : false;
   });
 
   const [backgroundColor, setBackgroundColor] = useState(() => {
-    const saved = localStorage.getItem('backgroundColor');
-    return saved || '#f9fafb'; // Default light gray
+    const saved = localStorage.getItem(THEME_CONFIG.STORAGE_KEYS.BACKGROUND_COLOR);
+    return saved || THEME_CONFIG.DEFAULT_BACKGROUND;
   });
 
   const [chatBackgroundColor, setChatBackgroundColor] = useState(() => {
-    const saved = localStorage.getItem('chatBackgroundColor');
-    return saved || '#ffffff'; // Default white
+    const saved = localStorage.getItem(THEME_CONFIG.STORAGE_KEYS.CHAT_BACKGROUND_COLOR);
+    return saved || THEME_CONFIG.DEFAULT_CHAT_BACKGROUND;
   });
 
   useEffect(() => {
-    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+    localStorage.setItem(THEME_CONFIG.STORAGE_KEYS.DARK_MODE, JSON.stringify(isDarkMode));
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -36,11 +37,11 @@ export const ThemeProvider = ({ children }) => {
   }, [isDarkMode]);
 
   useEffect(() => {
-    localStorage.setItem('backgroundColor', backgroundColor);
+    localStorage.setItem(THEME_CONFIG.STORAGE_KEYS.BACKGROUND_COLOR, backgroundColor);
   }, [backgroundColor]);
 
   useEffect(() => {
-    localStorage.setItem('chatBackgroundColor', chatBackgroundColor);
+    localStorage.setItem(THEME_CONFIG.STORAGE_KEYS.CHAT_BACKGROUND_COLOR, chatBackgroundColor);
   }, [chatBackgroundColor]);
 
   const toggleTheme = () => {
@@ -52,6 +53,7 @@ export const ThemeProvider = ({ children }) => {
   };
 
   const changeChatBackgroundColor = (color) => {
+    console.log('changeChatBackgroundColor called with:', color);
     setChatBackgroundColor(color);
   };
 

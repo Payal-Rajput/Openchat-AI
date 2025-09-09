@@ -276,7 +276,7 @@ const Chat = () => {
 
                            {/* Main Chat Area */}
         <div 
-          className="flex-1 flex flex-col h-[90vh] backdrop-blur-sm"
+          className="flex-1 flex flex-col h-[90vh] backdrop-blur-sm transition-all duration-500"
           style={{ backgroundColor: chatBackgroundColor }}
         >
        
@@ -286,7 +286,13 @@ const Chat = () => {
 
 
                                    {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-8 space-y-4 bg-black custom-scrollbar">
+          <div 
+            className="flex-1 overflow-y-auto p-8 space-y-4 custom-scrollbar transition-all duration-500"
+            style={{ 
+              backgroundColor: chatBackgroundColor,
+              backgroundImage: `linear-gradient(135deg, ${chatBackgroundColor} 0%, ${chatBackgroundColor}dd 100%)`
+            }}
+          >
             {chats.length === 0 ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
